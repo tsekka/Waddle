@@ -165,10 +165,10 @@ class Activity {
     }
 
     /**
-     * Get the max speed in mph
+     * Get the max speed in m/s
      * @return float
      */
-    public function getMaxSpeedInMPH() {
+    public function getMaxSpeed() {
         $max = 0;
 
         foreach ($this->laps as $lap) {
@@ -177,7 +177,15 @@ class Activity {
             }
         }
 
-        return Converter::convertMetresPerSecondToMilesPerHour($max);
+        return $max;
+    }
+
+    /**
+     * Get the max speed in mph
+     * @return float
+     */
+    public function getMaxSpeedInMPH() {
+        return Converter::convertMetresPerSecondToMilesPerHour($this->getMaxSpeed());
     }
 
     /**
@@ -185,21 +193,13 @@ class Activity {
      * @return float
      */
     public function getMaxSpeedInKPH() {
-        $max = 0;
-
-        foreach ($this->laps as $lap) {
-            if ($lap->getMaxSpeed() > $max) {
-                $max = $lap->getMaxSpeed();
-            }
-        }
-
-        return Converter::convertMetresPerSecondToKilometresPerHour($max);
+        return Converter::convertMetresPerSecondToKilometresPerHour($this->getMaxSpeed());
     }
 
     /**
      * Add up the total ascent and descent across the activity
      * In the future, might change this to look up lat/long points for more accuracy?
-     * @return array ['ascent' => int
+     * @return array ['ascent' => int, 'descent' => int]
      */
     public function getTotalAscentDescent() {
         $result = [
@@ -294,5 +294,40 @@ class Activity {
         }
 
         return $splits;
+    }
+
+    /**
+     * Returns the median & max heart rate
+     *
+     * @return     array  heart rate ['median' => float, 'max' => float]
+     */
+    public function getHeartRate() {
+        $result = [
+            'median' => null,
+            'max' => null
+        ];
+
+        $heartRates = [];
+        foreach ($this->getLaps() as $lap) {
+            foreach ($lap->getTrackPoints() as $trackPoint) {
+                $heartRate = $trackPoint->getHeartRate();
+                if ($heartRate) {
+                    $heartRates[] = $trackPoint->getHeartRate();
+                }
+            }
+        }
+        $length = count($heartRates);
+        if ($length <= 0) {
+            return $result;
+        }
+        sort($heartRates);
+        $higherMid = $length / 2;
+        if ($length % 2 === 0) {
+            $result['median'] = ($heartRates[$higherMid - 1] + $heartRates[$higherMid]) / 2;
+        } else {
+            $result['median'] = $heartRates[floor($higherMid)];
+        }
+        $result['max'] = $heartRates[$length - 1];
+        return $result;
     }
 }

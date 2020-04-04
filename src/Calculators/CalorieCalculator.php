@@ -2,11 +2,10 @@
 
 namespace Waddle\Calculators;
 
-class CalorieCalculator
-{
+class CalorieCalculator {
     // Approx Metabolic Equivalent Task score, per Mph (Running)
-    const MET_PER_MPH = (10 / 6);
-    const MET_PER_KMPH = (10 / 9.65606);
+    const MET_PER_MPH = 10 / 6;
+    const MET_PER_KMPH = 10 / 9.65606;
 
     // If I add more activity types, their MET adjustment constants can go here
     const MET_TYPE_RUNNING = 1;
@@ -17,9 +16,8 @@ class CalorieCalculator
      * @param float $activity
      * @return float
      */
-    public static function calculateMETFromMPH($avgSpeed, float $activity = self::MET_TYPE_RUNNING)
-    {
-        return round((self::MET_PER_MPH * $avgSpeed) * $activity, 1);
+    public static function calculateMETFromMPH($avgSpeed, float $activity = self::MET_TYPE_RUNNING) {
+        return round(self::MET_PER_MPH * $avgSpeed * $activity, 1);
     }
 
     /**
@@ -28,9 +26,8 @@ class CalorieCalculator
      * @param float $activity
      * @return float
      */
-    public static function calculateMETFromKMPH($avgSpeed, float $activity = self::MET_TYPE_RUNNING)
-    {
-        return round((self::MET_PER_KMPH * $avgSpeed) * $activity, 1);
+    public static function calculateMETFromKMPH($avgSpeed, float $activity = self::MET_TYPE_RUNNING) {
+        return round(self::MET_PER_KMPH * $avgSpeed * $activity, 1);
     }
 
     /**
@@ -40,8 +37,7 @@ class CalorieCalculator
      * @param float $timeInHours
      * @return float
      */
-    public static function calculateCaloriesBurned(float $mets, float $weightInKG, float $timeInHours)
-    {
+    public static function calculateCaloriesBurned(float $mets, float $weightInKG, float $timeInHours) {
         return floor($mets * $weightInKG * $timeInHours);
     }
 }

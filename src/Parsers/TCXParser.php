@@ -9,8 +9,7 @@ use Waddle\Lap;
 use Waddle\Parser;
 use Waddle\TrackPoint;
 
-class TCXParser extends Parser
-{
+class TCXParser extends Parser {
     const NS_ACTIVITY_EXTENSION_V2 = 'http://www.garmin.com/xmlschemas/ActivityExtension/v2';
 
     /** @var string */
@@ -22,8 +21,7 @@ class TCXParser extends Parser
      * @return Activity
      * @throws Exception
      */
-    public function parse($pathname)
-    {
+    public function parse($pathname) {
         // Check that the file exists
         $this->checkForFile($pathname);
 
@@ -33,14 +31,14 @@ class TCXParser extends Parser
         // Load the XML in the TCX file
         $data = simplexml_load_file($pathname);
         if (!isset($data->Activities->Activity)) {
-            throw new Exception("Unable to find valid activity in file contents");
+            throw new Exception('Unable to find valid activity in file contents');
         }
         $this->detectsNamespace($data);
 
         // Parse the first activity
         $activityNode = $data->Activities->Activity[0];
-        $activity->setStartTime(new \DateTime((string)$activityNode->Id));
-        $activity->setType((string)$activityNode['Sport']);
+        $activity->setStartTime(new \DateTime((string) $activityNode->Id));
+        $activity->setType((string) $activityNode['Sport']);
 
         // Now parse the laps
         // There should only be 1 lap, but they are stored in an array just in case this ever changes
@@ -56,8 +54,7 @@ class TCXParser extends Parser
      *
      * @var SimpleXMLElement $xml
      */
-    private function detectsNamespace(SimpleXMLElement $xml)
-    {
+    private function detectsNamespace(SimpleXMLElement $xml) {
         $this->nameNSActivityExtensionV2 = null;
 
         $namespaces = $xml->getNamespaces(true);
@@ -74,13 +71,12 @@ class TCXParser extends Parser
      * @return Lap
      * @throws Exception
      */
-    protected function parseLap($lapNode)
-    {
+    protected function parseLap($lapNode) {
         $lap = new Lap();
-        $lap->setTotalTime((float)$lapNode->TotalTimeSeconds);
-        $lap->setTotalDistance((float)$lapNode->DistanceMeters);
-        $lap->setMaxSpeed((float)$lapNode->MaximumSpeed);
-        $lap->setTotalCalories((float)$lapNode->Calories);
+        $lap->setTotalTime((float) $lapNode->TotalTimeSeconds);
+        $lap->setTotalDistance((float) $lapNode->DistanceMeters);
+        $lap->setMaxSpeed((float) $lapNode->MaximumSpeed);
+        $lap->setTotalCalories((float) $lapNode->Calories);
 
         // Loop through the track points
         foreach ($lapNode->Track->Trackpoint as $trackPointNode) {
@@ -96,20 +92,19 @@ class TCXParser extends Parser
      * @return TrackPoint
      * @throws Exception
      */
-    protected function parseTrackPoint($trackPointNode)
-    {
+    protected function parseTrackPoint($trackPointNode) {
         $point = new TrackPoint();
-        $point->setTime(new \DateTime((string)$trackPointNode->Time));
+        $point->setTime(new \DateTime((string) $trackPointNode->Time));
         $point->setPosition([
-            'lat' => (float)$trackPointNode->Position->LatitudeDegrees,
-            'lon' => (float)$trackPointNode->Position->LongitudeDegrees,
+            'lat' => (float) $trackPointNode->Position->LatitudeDegrees,
+            'lon' => (float) $trackPointNode->Position->LongitudeDegrees
         ]);
-        $point->setAltitude((float)$trackPointNode->AltitudeMeters);
-        $point->setDistance((float)$trackPointNode->DistanceMeters);
+        $point->setAltitude((float) $trackPointNode->AltitudeMeters);
+        $point->setDistance((float) $trackPointNode->DistanceMeters);
 
         if ($this->nameNSActivityExtensionV2) {
             if (isset($trackPointNode->Extensions->children('x', true)->TPX->children()->Speed)) {
-                $point->setSpeed((float)$trackPointNode->Extensions->children('x', true)->TPX->children()->Speed);
+                $point->setSpeed((float) $trackPointNode->Extensions->children('x', true)->TPX->children()->Speed);
             }
         }
 

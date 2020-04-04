@@ -5,8 +5,7 @@ namespace Waddle;
 use DateTime;
 use DateTimeZone;
 
-class Activity
-{
+class Activity {
     /** @var string */
     protected $type;
     /** @var DateTime */
@@ -18,8 +17,7 @@ class Activity
      * Get the type of activity, e.g. "Running" or "Cycling"
      * @return string
      */
-    public function getType()
-    {
+    public function getType() {
         return $this->type;
     }
 
@@ -28,8 +26,7 @@ class Activity
      * @param string $type
      * @return $this
      */
-    public function setType($type)
-    {
+    public function setType($type) {
         $this->type = $type;
         return $this;
     }
@@ -39,9 +36,8 @@ class Activity
      * @param string $format
      * @return string
      */
-    public function getStartTime($format)
-    {
-        return ($this->startTime instanceof DateTime) ? $this->startTime->format($format) : $this->startTime;
+    public function getStartTime($format) {
+        return $this->startTime instanceof DateTime ? $this->startTime->format($format) : $this->startTime;
     }
 
     /**
@@ -49,8 +45,7 @@ class Activity
      * @param DateTime $time
      * @return $this
      */
-    public function setStartTime(DateTime $time)
-    {
+    public function setStartTime(DateTime $time) {
         $time->setTimezone(new DateTimeZone(date_default_timezone_get()));
         $this->startTime = $time;
         return $this;
@@ -60,8 +55,7 @@ class Activity
      * Get all laps on the activity
      * @return Lap[]
      */
-    public function getLaps()
-    {
+    public function getLaps() {
         return $this->laps;
     }
 
@@ -70,17 +64,15 @@ class Activity
      * @param int $num
      * @return Lap|bool
      */
-    public function getLap($num)
-    {
-        return (array_key_exists($num, $this->laps)) ? $this->laps[$num] : false;
+    public function getLap($num) {
+        return array_key_exists($num, $this->laps) ? $this->laps[$num] : false;
     }
 
     /**
      * Add a lap to the activity
      * @param Lap $lap
      */
-    public function addLap(Lap $lap)
-    {
+    public function addLap(Lap $lap) {
         $this->laps[] = $lap;
     }
 
@@ -89,8 +81,7 @@ class Activity
      * @param Lap[] $laps
      * @return $this
      */
-    public function setLaps(array $laps)
-    {
+    public function setLaps(array $laps) {
         $this->laps = $laps;
         return $this;
     }
@@ -99,8 +90,7 @@ class Activity
      * Get the total distance covered in the whole activity
      * @return float
      */
-    public function getTotalDistance()
-    {
+    public function getTotalDistance() {
         $total = 0;
 
         foreach ($this->laps as $lap) {
@@ -114,8 +104,7 @@ class Activity
      * Get the total duration of the whole activity
      * @return int
      */
-    public function getTotalDuration()
-    {
+    public function getTotalDuration() {
         $total = 0;
 
         foreach ($this->laps as $lap) {
@@ -129,26 +118,27 @@ class Activity
      * Get the average pace per mile
      * @return string
      */
-    public function getAveragePacePerMile()
-    {
-        return Converter::convertSecondsToHumanReadable(($this->getTotalDuration() / Converter::convertMetresToMiles($this->getTotalDistance())));
+    public function getAveragePacePerMile() {
+        return Converter::convertSecondsToHumanReadable(
+            $this->getTotalDuration() / Converter::convertMetresToMiles($this->getTotalDistance())
+        );
     }
 
     /**
      * Get the average pace per kilometre
      * @return string
      */
-    public function getAveragePacePerKilometre()
-    {
-        return Converter::convertSecondsToHumanReadable(($this->getTotalDuration() / Converter::convertMetresToKilometres($this->getTotalDistance())));
+    public function getAveragePacePerKilometre() {
+        return Converter::convertSecondsToHumanReadable(
+            $this->getTotalDuration() / Converter::convertMetresToKilometres($this->getTotalDistance())
+        );
     }
 
     /**
      * Get the average speed in mph
      * @return float
      */
-    public function getAverageSpeedInMPH()
-    {
+    public function getAverageSpeedInMPH() {
         return Converter::convertMetresToMiles($this->getTotalDistance()) / ($this->getTotalDuration() / 3600);
     }
 
@@ -156,17 +146,15 @@ class Activity
      * Get the average speed in kph
      * @return float
      */
-    public function getAverageSpeedInKPH()
-    {
-        return (Converter::convertMetresToKilometres($this->getTotalDistance()) / ($this->getTotalDuration() / 3600));
+    public function getAverageSpeedInKPH() {
+        return Converter::convertMetresToKilometres($this->getTotalDistance()) / ($this->getTotalDuration() / 3600);
     }
 
     /**
      * Get total calories burned across whole activity
      * @return float
      */
-    public function getTotalCalories()
-    {
+    public function getTotalCalories() {
         $total = 0;
 
         foreach ($this->laps as $lap) {
@@ -180,8 +168,7 @@ class Activity
      * Get the max speed in mph
      * @return float
      */
-    public function getMaxSpeedInMPH()
-    {
+    public function getMaxSpeedInMPH() {
         $max = 0;
 
         foreach ($this->laps as $lap) {
@@ -197,8 +184,7 @@ class Activity
      * Get the max speed in kph
      * @return float
      */
-    public function getMaxSpeedInKPH()
-    {
+    public function getMaxSpeedInKPH() {
         $max = 0;
 
         foreach ($this->laps as $lap) {
@@ -215,28 +201,27 @@ class Activity
      * In the future, might change this to look up lat/long points for more accuracy?
      * @return array ['ascent' => int
      */
-    public function getTotalAscentDescent()
-    {
+    public function getTotalAscentDescent() {
         $result = [
             'ascent' => 0,
-            'descent' => 0,
+            'descent' => 0
         ];
 
         // First lap
-        $last = $this->getLap(0)->getTrackPoint(0)->getAltitude();
+        $last = $this->getLap(0)
+            ->getTrackPoint(0)
+            ->getAltitude();
 
         // Loop through each lap and point and add it all up
         foreach ($this->laps as $lap) {
             foreach ($lap->getTrackPoints() as $point) {
-
                 if ($point->getAltitude() > $last) {
-                    $result['ascent'] += ($point->getAltitude() - $last);
+                    $result['ascent'] += $point->getAltitude() - $last;
                 } elseif ($point->getAltitude() < $last) {
-                    $result['descent'] += ($last - $point->getAltitude());
+                    $result['descent'] += $last - $point->getAltitude();
                 }
 
                 $last = $point->getAltitude();
-
             }
         }
 
@@ -247,15 +232,14 @@ class Activity
      * Gives some information about the geographical properties of this track like extremal points
      * @return array
      */
-    public function getGeographicInformation()
-    {
+    public function getGeographicInformation() {
         $result = [
             'north' => PHP_INT_MIN,
             'east' => PHP_INT_MIN,
             'south' => PHP_INT_MAX,
             'west' => PHP_INT_MAX,
             'highest' => PHP_INT_MIN,
-            'lowest' => PHP_INT_MAX,
+            'lowest' => PHP_INT_MAX
         ];
 
         // Loop through each lap and point and add it all up
@@ -283,8 +267,7 @@ class Activity
      * @param string $type "k" - kilometers to meters or "m" - miles to meters
      * @return array
      */
-    public function getSplits($type)
-    {
+    public function getSplits($type) {
         if ($type == 'k') {
             $distance = Converter::convertKilometresToMetres(1);
         } else {
@@ -298,7 +281,7 @@ class Activity
 
         foreach ($this->laps as $lap) {
             foreach ($lap->getTrackPoints() as $key => $point) {
-                if (($point->getDistance() - $diff) >= $distance) {
+                if ($point->getDistance() - $diff >= $distance) {
                     $splits[] = $key;
                     $diff = $point->getDistance();
                 }

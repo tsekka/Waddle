@@ -2,16 +2,14 @@
 
 namespace Waddle;
 
-abstract class Converter
-{
+abstract class Converter {
     /**
      * Convert metres per second, to miles per hour
      * @param float $val
      * @return float
      */
-    public static function convertMetresPerSecondToMilesPerHour($val)
-    {
-        return ($val * 2.23694);
+    public static function convertMetresPerSecondToMilesPerHour($val) {
+        return $val * 2.23694;
     }
 
     /**
@@ -19,9 +17,8 @@ abstract class Converter
      * @param float $val
      * @return float
      */
-    public static function convertMetresPerSecondToKilometresPerHour($val)
-    {
-        return ($val * 3.6);
+    public static function convertMetresPerSecondToKilometresPerHour($val) {
+        return $val * 3.6;
     }
 
     /**
@@ -29,9 +26,8 @@ abstract class Converter
      * @param float $val
      * @return float
      */
-    public static function convertMetresToKilometres($val)
-    {
-        return ($val / 1000);
+    public static function convertMetresToKilometres($val) {
+        return $val / 1000;
     }
 
     /**
@@ -39,9 +35,8 @@ abstract class Converter
      * @param float $val
      * @return float
      */
-    public static function convertMetresToMiles($val)
-    {
-        return ($val / 1609.34);
+    public static function convertMetresToMiles($val) {
+        return $val / 1609.34;
     }
 
     /**
@@ -49,9 +44,8 @@ abstract class Converter
      * @param float $val
      * @return float
      */
-    public static function convertMetresToFeet($val)
-    {
-        return ($val * 3.28084);
+    public static function convertMetresToFeet($val) {
+        return $val * 3.28084;
     }
 
     /**
@@ -59,9 +53,8 @@ abstract class Converter
      * @param float $val
      * @return float
      */
-    public static function convertMilesToMetres($val)
-    {
-        return ($val * 1609.34);
+    public static function convertMilesToMetres($val) {
+        return $val * 1609.34;
     }
 
     /**
@@ -69,9 +62,8 @@ abstract class Converter
      * @param float $val
      * @return float
      */
-    public static function convertKilometresToMetres($val)
-    {
-        return ($val * 1000);
+    public static function convertKilometresToMetres($val) {
+        return $val * 1000;
     }
 
     /**
@@ -82,12 +74,11 @@ abstract class Converter
      * @param int $s
      * @return float
      */
-    public static function convertHoursMinutesSecondsToDecimal($h, $m, $s)
-    {
+    public static function convertHoursMinutesSecondsToDecimal($h, $m, $s) {
         $total = 0;
         $total += $h;
-        $total += ((1 / 60) * $m);
-        $total += ((1 / 3600) * $s);
+        $total += (1 / 60) * $m;
+        $total += (1 / 3600) * $s;
 
         return $total;
     }
@@ -97,9 +88,8 @@ abstract class Converter
      * @param float $val
      * @return string
      */
-    public static function convertSecondsToHumanReadable($val)
-    {
-        return sprintf("%02d:%02d:%02d", ($val / 3600), ($val / 60 % 60), ($val % 60));
+    public static function convertSecondsToHumanReadable($val) {
+        return sprintf('%02d:%02d:%02d', $val / 3600, ($val / 60) % 60, $val % 60);
     }
 
     /**
@@ -107,9 +97,8 @@ abstract class Converter
      * @param string $val
      * @return float
      */
-    public static function convertHumanReadableToSeconds($val)
-    {
-        $explode = explode(":", $val);
-        return ($explode[0] * 3600) + ($explode[1] * 60) + $explode[2];
+    public static function convertHumanReadableToSeconds($val) {
+        $explode = explode(':', $val);
+        return $explode[0] * 3600 + $explode[1] * 60 + $explode[2];
     }
 }

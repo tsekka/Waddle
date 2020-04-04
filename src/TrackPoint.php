@@ -5,8 +5,7 @@ namespace Waddle;
 use DateTime;
 use DateTimeZone;
 
-class TrackPoint
-{
+class TrackPoint {
     /** @var int Timestamp of the time this point was recorded (generally every second) */
     protected $time;
     /** @var array Array [lat => float, long => float] */
@@ -29,9 +28,8 @@ class TrackPoint
      * @param string $format
      * @return string|int
      */
-    public function getTime($format)
-    {
-        return ($this->time instanceof DateTime) ? $this->time->format($format) : $this->time;
+    public function getTime($format) {
+        return $this->time instanceof DateTime ? $this->time->format($format) : $this->time;
     }
 
     /**
@@ -39,17 +37,15 @@ class TrackPoint
      * @param string $type
      * @return float|array
      */
-    public function getPosition($type = null)
-    {
-        return (!is_null($type) && array_key_exists($type, $this->position)) ? $this->position[$type] : $this->position;
+    public function getPosition($type = null) {
+        return !is_null($type) && array_key_exists($type, $this->position) ? $this->position[$type] : $this->position;
     }
 
     /**
      * Get the altitude
      * @return float
      */
-    public function getAltitude()
-    {
+    public function getAltitude() {
         return $this->altitude;
     }
 
@@ -57,8 +53,7 @@ class TrackPoint
      * Get the distance so far
      * @return float
      */
-    public function getDistance()
-    {
+    public function getDistance() {
         return $this->distance;
     }
 
@@ -66,8 +61,7 @@ class TrackPoint
      * Get the current speed at this point
      * @return float
      */
-    public function getSpeed()
-    {
+    public function getSpeed() {
         return $this->speed;
     }
 
@@ -75,18 +69,15 @@ class TrackPoint
      * Get the current heart rate at this point
      * @return float
      */
-    public function getHeartRate()
-    {
+    public function getHeartRate() {
         return $this->heartRate;
     }
-
 
     /**
      * Get the number of calories burnt so far
      * @return float
      */
-    public function getCalories()
-    {
+    public function getCalories() {
         return $this->calories;
     }
 
@@ -95,8 +86,7 @@ class TrackPoint
      * @param DateTime $time
      * @return $this
      */
-    public function setTime(DateTime $time)
-    {
+    public function setTime(DateTime $time) {
         $time->setTimezone(new DateTimeZone(date_default_timezone_get()));
         $this->time = $time;
         return $this;
@@ -107,8 +97,7 @@ class TrackPoint
      * @param array $val
      * @return $this
      */
-    public function setPosition(array $val)
-    {
+    public function setPosition(array $val) {
         $this->position = $val;
         return $this;
     }
@@ -118,8 +107,7 @@ class TrackPoint
      * @param float $val
      * @return $this
      */
-    public function setAltitude($val)
-    {
+    public function setAltitude($val) {
         $this->altitude = $val;
         return $this;
     }
@@ -129,8 +117,7 @@ class TrackPoint
      * @param float $val
      * @return $this
      */
-    public function setDistance($val)
-    {
+    public function setDistance($val) {
         $this->distance = $val;
         return $this;
     }
@@ -140,8 +127,7 @@ class TrackPoint
      * @param float $val
      * @return $this
      */
-    public function setSpeed($val)
-    {
+    public function setSpeed($val) {
         $this->speed = $val;
         return $this;
     }
@@ -151,8 +137,7 @@ class TrackPoint
      * @param float $val
      * @return $this
      */
-    public function setHeartRate($val)
-    {
+    public function setHeartRate($val) {
         $this->heartRate = $val;
         return $this;
     }
@@ -162,8 +147,7 @@ class TrackPoint
      * @param float $val
      * @return $this
      */
-    public function setCalories($val)
-    {
+    public function setCalories($val) {
         $this->calories = $val;
         return $this;
     }

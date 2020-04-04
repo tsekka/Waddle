@@ -103,7 +103,7 @@ class CSVParser extends Parser {
         }
 
         if ($this->getHeaderKey('heartRate') !== false) {
-            $point->setHeartRate((float) $trackPointRow[$this->getHeaderKey('speed')]);
+            $point->setHeartRate((float) $trackPointRow[$this->getHeaderKey('heartRate')]);
         }
 
         if ($this->getHeaderKey('calories') !== false) {

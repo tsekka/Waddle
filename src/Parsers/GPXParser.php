@@ -103,8 +103,11 @@ class GPXParser extends Parser {
         $point->setTime(new DateTime((string) $trackPointNode->time));
         $point->setPosition(['lat' => (float) $trackPointNode['lat'], 'lon' => (float) $trackPointNode['lon']]);
         $point->setAltitude((float) $trackPointNode->ele);
-
-        // GPX files don't store the distance travelled, that will have to be calculated from lat/lon
+        $extensions = $trackPointNode->extensions;
+        if ($extensions){
+            $point->setHeartRate((float) $extensions->children('gpxtpx', true)->TrackPointExtension->hr);
+        }
+        // GPX files don't store the distance traveled, that will have to be calculated from lat/lon
         $distance = 0;
         $speed = 0;
 
@@ -124,7 +127,7 @@ class GPXParser extends Parser {
             $timeDiff = $point->getTime('U') - $previousTrackPoint->getTime('U');
 
             if ($timeDiff != 0) {
-                $speed = $distanceTravelled / $timeDiff; # Metres per Second
+                $speed = $distanceTravelled / $timeDiff; # Meters per Second
             }
         }
 

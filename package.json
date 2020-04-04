@@ -1,0 +1,82 @@
+{
+  "name": "waddle",
+  "version": "1.0.0",
+  "description": "PHP Library for parsing running GPS activities and calculating metrics",
+  "author": [
+    {
+      "name": "Conn Warwicker"
+    },
+    {
+      "name": "Dominik Straub",
+      "email": "dominik.straub@gmail.com",
+      "url": ""
+    }
+  ],
+  "devDependencies": {
+    "@prettier/plugin-php": "^0.14.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.0.6",
+    "prettier": "^1.19.1"
+  },
+  "dependencies": {},
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "eslint:recommended",
+      "prettier"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 10
+    },
+    "env": {
+      "browser": true,
+      "es6": true
+    },
+    "plugins": [
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": [
+        "error",
+        {
+          "singleQuote": true,
+          "tabWidth": 4,
+          "printWidth": 120
+        }
+      ],
+      "no-unused-vars": [
+        "error",
+        {
+          "vars": "all",
+          "args": "none"
+        }
+      ],
+      "semi": [
+        "error",
+        "always"
+      ],
+      "curly": "error",
+      "eqeqeq": "error",
+      "no-eval": "error",
+      "no-loop-func": "error",
+      "radix": "error",
+      "comma-dangle": "error",
+      "no-undef": "error",
+      "require-atomic-updates": "off"
+    },
+    "globals": {}
+  },
+  "prettier": {
+    "printWidth": 120,
+    "tabWidth": 4,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "none",
+    "phpVersion": "7.2",
+    "trailingCommaPHP": false,
+    "braceStyle": "1tbs"
+  }
+}

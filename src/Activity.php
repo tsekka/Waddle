@@ -119,8 +119,11 @@ class Activity {
      * @return string
      */
     public function getAveragePacePerMile() {
+        $distanceInMiles = Converter::convertMetresToMiles($this->getTotalDistance());
         return Converter::convertSecondsToHumanReadable(
-            $this->getTotalDuration() / Converter::convertMetresToMiles($this->getTotalDistance())
+            $distanceInMiles
+            ? $this->getTotalDuration() / Converter::convertMetresToMiles($this->getTotalDistance())
+            : 0
         );
     }
 
@@ -129,8 +132,11 @@ class Activity {
      * @return string
      */
     public function getAveragePacePerKilometre() {
+        $distanceInKilometers = Converter::convertMetresToKilometres($this->getTotalDistance());
         return Converter::convertSecondsToHumanReadable(
-            $this->getTotalDuration() / Converter::convertMetresToKilometres($this->getTotalDistance())
+            $distanceInKilometers
+            ? $this->getTotalDuration() / Converter::convertMetresToKilometres($this->getTotalDistance())
+            : 0
         );
     }
 

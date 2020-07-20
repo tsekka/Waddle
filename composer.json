@@ -1,5 +1,5 @@
 {
-    "name": "dominikstraub/waddle",
+    "name": "tsekka/waddle",
     "type": "library",
     "description": "PHP Library for parsing running GPS activities and calculating metrics",
     "keywords": [
@@ -17,6 +17,9 @@
         },
         {
             "name": "Dominik Straub"
+        },
+        {
+            "name": "Kristjan Käärma"
         }
     ],
     "require": {
